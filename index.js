@@ -46,15 +46,27 @@ function NumberForm() {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const numberInput = parseInt(formData.get("number"));
+    const inputArray = formData.get("number").split(",");
 
-    if (isNaN(numberInput)) {
-      alert("Input needs to be a number");
-      return;
-    }
+    if (inputArray == "") return;
 
-    addToBank(numberInput);
-    render();
+    inputArray.forEach((num) => {
+      const numberInput = parseInt(num);
+      // test if input number has a space between two numbers
+      if (num.split(" ").length > 1) {
+        alert(
+          `Input "${num}" has spaces between numbers and will not be added.\n Please use commas to seperate numbers.`
+        );
+        return;
+      }
+      // test if input is not a number
+      if (isNaN(numberInput)) {
+        alert(`Input "${num}" is not a number and will not be added.`);
+        return;
+      }
+      addToBank(numberInput);
+      render();
+    });
   });
   buttonList[1].addEventListener("click", (event) => {
     event.preventDefault();
