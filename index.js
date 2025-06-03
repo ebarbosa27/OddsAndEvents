@@ -7,15 +7,20 @@ const oddNum = [];
 // Numbers that are even passed in from bank
 const evenNum = [];
 
-// Handler Functions
+// === Handler Functions
+function addToBank(num) {
+  bankNum.push(num);
+}
 
 // === Component Functions
 function NumberForm() {
   const formElement = document.createElement("form");
   formElement.innerHTML = `
-    <label></label>
-    <input />
-    <button>Add number</button>
+    <label>
+      Add a number to the bank
+      <input name="number" />
+      <button>Add number</button>
+    </label>
     <button>Sort 1</button>
     <button>Sort All</button>
   `;
@@ -23,11 +28,28 @@ function NumberForm() {
   const buttonList = formElement.querySelectorAll("button");
 
   // Add number to number bank from input
-  buttonList[0].addEventListener("click", (event) => {});
+  formElement.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const numberInput = parseInt(formData.get("number"));
+
+    if (isNaN(numberInput)) {
+      alert("Input needs to be a number");
+      return;
+    }
+
+    addToBank(numberInput);
+    render();
+  });
   // Sort only 1 number from bank to odd or even
-  buttonList[1].addEventListener("click", (event) => {});
+  buttonList[1].addEventListener("click", (event) => {
+    event.preventDefault();
+  });
   // Sort all numbers from bank to odd or even
-  buttonList[2].addEventListener("click", (event) => {});
+  buttonList[2].addEventListener("click", (event) => {
+    event.preventDefault();
+  });
 
   return formElement;
 }
@@ -73,5 +95,7 @@ function render() {
   appElement.querySelector("BankComponent").replaceWith(BankComponent());
   appElement.querySelector("OddsComponent").replaceWith(OddsComponent());
   appElement.querySelector("EvensComponent").replaceWith(EvensComponent());
+
+  appElement.querySelector("input").focus();
 }
 render();
