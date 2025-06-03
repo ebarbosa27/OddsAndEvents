@@ -66,7 +66,7 @@ function NumberForm() {
     inputArray.forEach((num) => {
       const numberInput = parseInt(num);
       // test if input number has a space between two numbers
-      if (num.split(" ").length > 1) {
+      if (num.trim().split(" ").length > 1) {
         alert(
           `Input "${num}" has spaces between numbers and will not be added.\n Please use commas to seperate numbers.`
         );
