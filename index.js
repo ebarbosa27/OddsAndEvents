@@ -6,8 +6,10 @@ const bankNums = [];
 const oddNums = [];
 // Numbers that are even passed in from bank
 const evenNums = [];
-//
+// Placeholder left on sort input
 let numToSort = 0;
+// Sort array by ascending or descending
+let sortBy = "ascending";
 
 // === Handler Functions
 // Pushes a number from input to bank state
@@ -19,12 +21,22 @@ function moveNextNumber() {
   const numToMove = bankNums[0];
   if (numToMove % 2 === 0) {
     evenNums.push(numToMove);
-    evenNums.sort((a, b) => a - b);
+    sortArrays();
   } else {
     oddNums.push(numToMove);
-    oddNums.sort((a, b) => a - b);
+    sortArrays();
   }
   bankNums.shift();
+}
+
+function sortArrays() {
+  if (sortBy === "ascending") {
+    evenNums.sort((a, b) => a - b);
+    oddNums.sort((a, b) => a - b);
+  } else {
+    evenNums.sort((a, b) => b - a);
+    oddNums.sort((a, b) => b - a);
+  }
 }
 
 // === Component Functions
@@ -80,7 +92,7 @@ function NumberForm() {
   return formElement;
 }
 
-function SortButtonsComponent() {
+function SortButtonsForm() {
   const formElement = document.createElement("form");
   formElement.className = "sortForm";
   formElement.innerHTML = `
@@ -91,6 +103,7 @@ function SortButtonsComponent() {
       <input name="sortQuantity" placeholder="#" />
       <button>Sort</button>
     </label>
+    
   `;
 
   const buttonList = formElement.querySelectorAll("button");
@@ -143,6 +156,29 @@ function SortButtonsComponent() {
   inputElement.value = numToSort;
 
   return formElement;
+}
+
+function SortBySelect() {
+  const sortElem = document.createElement("div");
+  sortElem.innerHTML = `
+    <label>Sort by: </label>
+    <select name="sortOrder">
+      <option value="ascending">Ascending</option>
+      <option value="descending">Descending</option>
+    </select>
+  `;
+
+  const selectElem = sortElem.querySelector("select");
+  // update the sortBy state variable when select changes
+  selectElem.addEventListener("change", (event) => {
+    const sortOrder = event.target.value;
+    sortBy = sortOrder;
+    sortArrays();
+    render();
+  });
+
+  selectElem.value = sortBy;
+  return sortElem;
 }
 
 function BankComponent() {
@@ -203,6 +239,7 @@ function render() {
     <h1>Odds and Events</h1>
     <NumberForm></NumberForm>
     <SortButtons></SortButtons>
+    <SortBy></SortBy>
     <main>
       <BankComponent></BankComponent>
       <OddsComponent></OddsComponent>
@@ -213,7 +250,9 @@ function render() {
   // Create the form at the top of page
   appElement.querySelector("NumberForm").replaceWith(NumberForm());
   // Create the sort buttons under the form
-  appElement.querySelector("SortButtons").replaceWith(SortButtonsComponent());
+  appElement.querySelector("SortButtons").replaceWith(SortButtonsForm());
+  // Create a dropdown of whether to sort the numbers by ascending or descending
+  appElement.querySelector("SortBy").replaceWith(SortBySelect());
 
   // Fill in the content under the form component
   appElement.querySelector("BankComponent").replaceWith(BankComponent());
