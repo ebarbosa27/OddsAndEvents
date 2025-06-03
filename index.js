@@ -12,22 +12,41 @@ const evenNum = [];
 // === Component Functions
 function NumberForm() {
   const formElement = document.createElement("form");
-  return containerElement;
+  formElement.innerHTML = `
+    <label></label>
+    <input />
+    <button>Add number</button>
+    <button>Sort 1</button>
+    <button>Sort All</button>
+  `;
+
+  const buttonList = formElement.querySelectorAll("button");
+
+  // Add number to number bank from input
+  buttonList[0].addEventListener("click", (event) => {});
+  // Sort only 1 number from bank to odd or even
+  buttonList[1].addEventListener("click", (event) => {});
+  // Sort all numbers from bank to odd or even
+  buttonList[2].addEventListener("click", (event) => {});
+
+  return formElement;
 }
 
 function BankComponent() {
   const bankElem = document.createElement("div");
-  bankElem.style = "";
+  bankElem.className = "";
   return bankElem;
 }
 
 function OddsComponent() {
   const oddsElem = document.createElement("div");
+  oddsElem.className = "";
   return oddsElem;
 }
 
 function EvensComponent() {
   const evenElem = document.createElement("div");
+  evenElem.className = "";
   return evenElem;
 }
 
