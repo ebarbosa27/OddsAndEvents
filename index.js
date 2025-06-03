@@ -70,18 +70,48 @@ function NumberForm() {
 function BankComponent() {
   const bankElem = document.createElement("div");
   bankElem.className = "";
+  bankElem.innerHTML = `
+    <h2>Bank</h2>
+    <ul></ul>
+  `;
+  const listContElement = bankElem.querySelector("ul");
+  bankNums.forEach((num) => {
+    const listItemElement = document.createElement("li");
+    listItemElement.innerHTML = `${num}`;
+    listContElement.appendChild(listItemElement);
+  });
   return bankElem;
 }
 
 function OddsComponent() {
   const oddsElem = document.createElement("div");
   oddsElem.className = "";
+  oddsElem.innerHTML = `
+    <h2>Odds</h2>
+    <ul></ul>
+  `;
+  const listContElement = oddsElem.querySelector("ul");
+  oddNums.forEach((num) => {
+    const listItemElement = document.createElement("li");
+    listItemElement.innerHTML = `${num}`;
+    listContElement.appendChild(listItemElement);
+  });
   return oddsElem;
 }
 
 function EvensComponent() {
   const evenElem = document.createElement("div");
   evenElem.className = "";
+  evenElem.innerHTML = `
+    <h2>Evens</h2>
+    <ul></ul>
+  `;
+  const listContElement = evenElem.querySelector("ul");
+  evenNums.forEach((num) => {
+    const listItemElement = document.createElement("li");
+    listItemElement.innerHTML = `${num}`;
+    listContElement.appendChild(listItemElement);
+  });
   return evenElem;
 }
 
