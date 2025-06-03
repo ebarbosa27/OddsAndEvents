@@ -57,12 +57,13 @@ function NumberForm() {
   buttonList[1].addEventListener("click", (event) => {
     event.preventDefault();
     moveNextNumber();
+    render();
   });
   // Sort all numbers from bank to odd or even
   buttonList[2].addEventListener("click", (event) => {
     event.preventDefault();
+    render();
   });
-
   return formElement;
 }
 
