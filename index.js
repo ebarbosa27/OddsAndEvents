@@ -6,6 +6,8 @@ const bankNums = [];
 const oddNums = [];
 // Numbers that are even passed in from bank
 const evenNums = [];
+//
+let numToSort = 0;
 
 // === Handler Functions
 // Pushes a number from input to bank state
@@ -26,17 +28,14 @@ function moveNextNumber() {
 // === Component Functions
 function NumberForm() {
   const formElement = document.createElement("form");
+  formElement.className = "numberForm";
   formElement.innerHTML = `
     <label>
       Add a number to the bank
-      <input name="number" />
-      <button>Add number</button>
-      <button>Add Random</button>
+      <input name="number" placeholder="Number" />
     </label>
-    <div class="functionButtons">
-      <button>Sort 1</button>
-      <button>Sort All</button>
-    </div>
+    <button>Add number</button>
+    <button>Add Random</button>
   `;
 
   const buttonList = formElement.querySelectorAll("button");
@@ -68,25 +67,79 @@ function NumberForm() {
       render();
     });
   });
+
+  // Adds a random number to the bank state
   buttonList[1].addEventListener("click", (event) => {
     event.preventDefault();
     addToBank(Math.ceil(Math.random() * 99));
     render();
   });
+
+  return formElement;
+}
+
+function SortButtonsComponent() {
+  const formElement = document.createElement("form");
+  formElement.className = "sortForm";
+  formElement.innerHTML = `
+    <button>Sort 1</button>
+    <button>Sort All</button>
+    <label>
+      Quantity:
+      <input name="sortQuantity" placeholder="#" />
+      <button>Sort</button>
+    </label>
+  `;
+
+  const buttonList = formElement.querySelectorAll("button");
+
   // Sort only 1 number from bank to odd or even
-  buttonList[2].addEventListener("click", (event) => {
+  buttonList[0].addEventListener("click", (event) => {
     event.preventDefault();
     moveNextNumber();
     render();
   });
+
   // Sort all numbers from bank to odd or even
-  buttonList[3].addEventListener("click", (event) => {
+  buttonList[1].addEventListener("click", (event) => {
     event.preventDefault();
     while (bankNums.length > 0) {
       moveNextNumber();
     }
     render();
   });
+
+  // Sort input number of values from bank to odd or even
+  formElement.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const sortQuantity = formData.get("sortQuantity").trim();
+    if (sortQuantity == "") return;
+
+    // test to make sure quantity is a valid input
+    if (sortQuantity.split(" ").length > 1) {
+      alert(
+        `"${sortQuantity}" is not a valid sort input.\n Make sure the quantity to sort is a single number.`
+      );
+      return;
+    }
+
+    let sortNum = parseInt(sortQuantity);
+    // update numToSort state variable to keep after submitting submit button
+    numToSort = sortNum;
+    while (bankNums.length > 0 && sortNum > 0) {
+      moveNextNumber();
+      sortNum--;
+    }
+
+    render();
+  });
+
+  // updating value in sort input of previous input
+  const inputElement = formElement.querySelector("input");
+  inputElement.value = numToSort;
+
   return formElement;
 }
 
@@ -147,6 +200,7 @@ function render() {
   appElement.innerHTML = `
     <h1>Odds and Events</h1>
     <NumberForm></NumberForm>
+    <SortButtons></SortButtons>
     <main>
       <BankComponent></BankComponent>
       <OddsComponent></OddsComponent>
@@ -156,6 +210,8 @@ function render() {
 
   // Create the form at the top of page
   appElement.querySelector("NumberForm").replaceWith(NumberForm());
+  // Create the sort buttons under the form
+  appElement.querySelector("SortButtons").replaceWith(SortButtonsComponent());
 
   // Fill in the content under the form component
   appElement.querySelector("BankComponent").replaceWith(BankComponent());
