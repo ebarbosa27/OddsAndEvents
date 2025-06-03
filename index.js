@@ -1,3 +1,13 @@
+// State Variables
+
+// numbers in bank waiting to be sorted
+const bankNum = [];
+// Numbers that are odds passed in from bank
+const oddNum = [];
+// Numbers that are even passed in from bank
+const evenNum = [];
+
+// Render function to load in content into the html
 function render() {
   // Retrieve the app element from the html
   const appElement = document.querySelector("#app");
