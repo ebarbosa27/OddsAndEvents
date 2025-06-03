@@ -19,8 +19,10 @@ function moveNextNumber() {
   const numToMove = bankNums[0];
   if (numToMove % 2 === 0) {
     evenNums.push(numToMove);
+    evenNums.sort((a, b) => a - b);
   } else {
     oddNums.push(numToMove);
+    oddNums.sort((a, b) => a - b);
   }
   bankNums.shift();
 }
