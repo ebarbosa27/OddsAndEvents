@@ -62,6 +62,9 @@ function NumberForm() {
   // Sort all numbers from bank to odd or even
   buttonList[2].addEventListener("click", (event) => {
     event.preventDefault();
+    while (bankNums.length > 0) {
+      moveNextNumber();
+    }
     render();
   });
   return formElement;
