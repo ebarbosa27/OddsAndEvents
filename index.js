@@ -1,15 +1,26 @@
 // === State Variables
 
 // numbers in bank waiting to be sorted
-const bankNum = [];
+const bankNums = [];
 // Numbers that are odds passed in from bank
-const oddNum = [];
+const oddNums = [];
 // Numbers that are even passed in from bank
-const evenNum = [];
+const evenNums = [];
 
 // === Handler Functions
+// Pushes a number from input to bank state
 function addToBank(num) {
-  bankNum.push(num);
+  bankNums.push(num);
+}
+
+function moveNextNumber() {
+  const numToMove = bankNums[0];
+  if (numToMove % 2 === 0) {
+    evenNums.push(numToMove);
+  } else {
+    oddNums.push(numToMove);
+  }
+  bankNums.shift();
 }
 
 // === Component Functions
@@ -45,6 +56,7 @@ function NumberForm() {
   // Sort only 1 number from bank to odd or even
   buttonList[1].addEventListener("click", (event) => {
     event.preventDefault();
+    moveNextNumber();
   });
   // Sort all numbers from bank to odd or even
   buttonList[2].addEventListener("click", (event) => {
@@ -96,6 +108,7 @@ function render() {
   appElement.querySelector("OddsComponent").replaceWith(OddsComponent());
   appElement.querySelector("EvensComponent").replaceWith(EvensComponent());
 
+  // Focus input on page render
   appElement.querySelector("input").focus();
 }
 render();
